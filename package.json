@@ -1,0 +1,11 @@
+{
+  "name": "prohunters-parceiros",
+  "version": "1.0.0",
+  "description": "Programa de Parceiros Pro Hunters — catálogo + admin de produtos (Vercel serverless, sem dependências).",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": { "node": ">=18" }
+}

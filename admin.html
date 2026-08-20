@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Produtos da Parceria — Pro Hunters</title>
+<style>
+  :root{
+    --bg:#f5f6f4;--surface:#fff;--surface-2:#f8faf7;--ink:#161a16;--ink-2:#586059;--muted:#8b918a;
+    --line:#e4e7e2;--ring:rgba(20,24,20,.08);--brand:#78b981;--accent:#2f7a4f;--accent-dark:#24603d;--accent-soft:#eaf4ee;
+    --serious:#c05a2a;--serious-soft:#f8f0e0;--font:system-ui,-apple-system,"Segoe UI",sans-serif;--shadow:0 1px 3px rgba(20,24,20,.05),0 6px 22px rgba(20,24,20,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+  .tnum{font-variant-numeric:tabular-nums}
+  header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+  .hin{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:14px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
+  .logo .mk{width:32px;height:32px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:16px}
+  .logo small{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+  .hin .sp{flex:1}
+  .btn{border:0;border-radius:9px;padding:10px 15px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:.15s}
+  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-dark)}
+  .btn-ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{background:#eef1ec}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px}
+  .tools{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  .search{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;font-family:var(--font);color:var(--ink);width:300px;max-width:100%}
+  .search:focus{outline:none;border-color:var(--accent)}
+  .sp{flex:1}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  thead th{text-align:left;color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:13px 14px;border-bottom:1px solid var(--line)}
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr:hover{background:var(--surface-2)}
+  tbody b{color:var(--ink)}
+  .th-r,.td-r{text-align:right}
+  .pill{font-family:ui-monospace,monospace;font-size:11px;background:#eef1ec;padding:2px 7px;border-radius:6px;color:var(--accent)}
+  .cat{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;border:1px solid var(--line)}
+  .ctrlb{font-size:10px;font-weight:700;color:var(--serious);border:1px solid #e6c3a8;padding:2px 6px;border-radius:5px}
+  .toggle{border:0;cursor:pointer;font-family:var(--font);font-size:11px;font-weight:700;padding:5px 11px;border-radius:99px;display:inline-flex;gap:6px;align-items:center}
+  .toggle .d{width:7px;height:7px;border-radius:50%}
+  .on{background:var(--accent-soft);color:var(--accent-dark)}.on .d{background:var(--accent)}
+  .off{background:#f0efe9;color:var(--muted)}.off .d{background:var(--muted)}
+  .row-act{white-space:nowrap;text-align:right}
+  .ib{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:12.5px;cursor:pointer;font-family:var(--font);color:var(--ink)}
+  .ib:hover{border-color:var(--accent);color:var(--accent)}
+  .stat{display:flex;gap:22px;margin-bottom:18px;flex-wrap:wrap}
+  .stat .s b{font-size:22px;display:block}.stat .s span{font-size:12px;color:var(--muted)}
+  /* modal */
+  .mbg{position:fixed;inset:0;background:rgba(20,24,20,.5);backdrop-filter:blur(3px);display:none;place-items:start center;z-index:40;padding:28px 20px;overflow:auto}
+  .mbg.open{display:grid}
+  .modal{background:var(--surface);border-radius:16px;padding:26px;width:min(680px,100%);box-shadow:var(--shadow)}
+  .modal h2{font-size:18px;margin-bottom:3px}.modal .ms{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+  .fg{display:flex;flex-direction:column;gap:6px}.fg.full{grid-column:1/-1}
+  .fg label{font-size:12px;color:var(--ink-2);font-weight:500}.fg label .r{color:var(--accent)}
+  .fg input,.fg select,.fg textarea{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:14px;font-family:var(--font);color:var(--ink)}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--accent)}
+  .mfoot{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+  /* login */
+  .login{position:fixed;inset:0;background:var(--bg);display:grid;place-items:center;z-index:60;padding:20px}
+  .login .box{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:34px;width:min(400px,100%);box-shadow:var(--shadow);text-align:center}
+  .login .mk{width:52px;height:52px;border-radius:14px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 16px}
+  .login h1{font-size:20px;margin-bottom:6px}.login p{font-size:13px;color:var(--muted);margin-bottom:22px}
+  .login input{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;font-family:var(--font);margin-bottom:12px}
+  .login .err{color:#c0392b;font-size:13px;min-height:18px;margin-bottom:8px}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(160%);background:var(--ink);color:#fff;padding:13px 22px;border-radius:11px;font-size:14px;font-weight:600;z-index:90;transition:.35s;max-width:90vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast.green{background:var(--accent)}.toast.amber{background:var(--serious)}
+  .hint{font-size:12px;color:var(--muted)}
+  @media(max-width:640px){.fgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="box">
+    <div class="mk">◆</div>
+    <h1>Painel de Produtos</h1>
+    <p>Programa de Parceiros · Pro Hunters</p>
+    <div class="err" id="loginErr"></div>
+    <input type="password" id="senha" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')entrar()">
+    <button class="btn btn-primary" style="width:100%;padding:12px" onclick="entrar()">Entrar</button>
+  </div>
+</div>
+
+<header>
+  <div class="hin">
+    <div class="logo"><span class="mk">◆</span><div>Produtos da Parceria<small>Pro Hunters · admin</small></div></div>
+    <div class="sp"></div>
+    <button class="btn btn-ghost" onclick="sair()">Sair</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stat" id="stat"></div>
+  <div class="tools">
+    <input class="search" id="q" placeholder="Buscar produto, SKU ou categoria…" oninput="render()">
+    <div class="sp"></div>
+    <button class="btn btn-ghost" onclick="document.getElementById('csvfile').click()">⬇ Importar CSV do site</button>
+    <input type="file" id="csvfile" accept=".csv,.txt" style="display:none" onchange="importarCSV(this)">
+    <button class="btn btn-primary" onclick="abrir(null)">+ Novo produto</button>
+  </div>
+  <div class="card"><table>
+    <thead><tr><th>Produto</th><th>Categoria</th><th class="th-r">Preço</th><th class="th-r">Estoque</th><th class="th-r">Comissão</th><th>Controlado</th><th>Na parceria</th><th></th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table></div>
+  <p class="hint" style="margin-top:14px">💡 Para trazer todo o catálogo do site: no painel da Tray, exporte os produtos em CSV e clique em <b>Importar CSV do site</b>. O sistema reconhece nome, preço, categoria, SKU e estoque automaticamente.</p>
+</div>
+
+<!-- MODAL PRODUTO -->
+<div class="mbg" id="mProd"><div class="modal">
+  <h2 id="mTitle">Novo produto</h2><p class="ms">Vale para o catálogo, o painel do lojista e a comissão.</p>
+  <input type="hidden" id="f-orig">
+  <div class="fgrid">
+    <div class="fg full"><label>Nome <span class="r">*</span></label><input id="f-nome"></div>
+    <div class="fg"><label>SKU / código <span class="r">*</span></label><input id="f-sku"></div>
+    <div class="fg"><label>Categoria</label><select id="f-cat" onchange="comHint()"><option>Óptica</option><option>Acessório</option><option>Munição</option><option>Arma</option></select></div>
+    <div class="fg"><label>Preço (R$) <span class="r">*</span></label><input id="f-preco" type="number" step="0.01"></div>
+    <div class="fg"><label>Estoque</label><input id="f-estoque" type="number" value="0"></div>
+    <div class="fg"><label>Ícone / emoji</label><input id="f-ic" maxlength="2" value="📦"></div>
+    <div class="fg"><label>Comissão (categoria)</label><input id="f-com" readonly style="opacity:.7"></div>
+    <div class="fg full"><label>Descrição (catálogo)</label><textarea id="f-desc" rows="2"></textarea></div>
+    <div class="fg"><label>Controlado?</label><select id="f-ctrl"><option value="nao">Não</option><option value="sim">Sim (arma/munição)</option></select></div>
+    <div class="fg"><label>Na parceria?</label><select id="f-parc"><option value="sim">Sim — aparece pro lojista</option><option value="nao">Não</option></select></div>
+  </div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="fechar()">Cancelar</button><button class="btn btn-primary" onclick="salvar()">Salvar produto</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BRL=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:2});
+const CAT_COLOR={'Óptica':'#2a78d6','Acessório':'#158a63','Munição':'#b07d1a','Arma':'#c85a28'};
+const CAT_COM={'Óptica':0.12,'Acessório':0.12,'Munição':0.06,'Arma':0.04};
+let items=[];
+
+async function api(path,opts){const r=await fetch(path,{headers:{'Content-Type':'application/json'},...opts});return r;}
+
+async function checkAuth(){const r=await api('/api/me');const {authed}=await r.json();if(authed){document.getElementById('login').style.display='none';carregar();}}
+async function entrar(){
+  const senha=document.getElementById('senha').value;
+  const r=await api('/api/login',{method:'POST',body:JSON.stringify({senha})});
+  if(r.ok){document.getElementById('login').style.display='none';carregar();}
+  else{document.getElementById('loginErr').textContent='Senha incorreta.';}
+}
+async function sair(){await api('/api/logout',{method:'POST'});location.reload();}
+
+async function carregar(){
+  const r=await api('/api/products');
+  if(r.status===401){document.getElementById('login').style.display='grid';return;}
+  items=await r.json();render();
+}
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const list=items.filter(p=>(p.nome+p.sku+p.cat).toLowerCase().includes(q));
+  const naParc=items.filter(p=>p.parc).length;
+  const ctrl=items.filter(p=>p.ctrl).length;
+  document.getElementById('stat').innerHTML=
+    `<div class="s"><b>${items.length}</b><span>produtos cadastrados</span></div>
+     <div class="s"><b style="color:var(--accent)">${naParc}</b><span>na parceria</span></div>
+     <div class="s"><b>${ctrl}</b><span>controlados</span></div>`;
+  document.getElementById('tbody').innerHTML=list.map(p=>`<tr>
+    <td><div style="display:flex;gap:11px;align-items:center"><span style="font-size:18px">${p.ic||'📦'}</span><div><b>${esc(p.nome)}</b> <span class="pill">${esc(p.sku)}</span></div></div></td>
+    <td><span class="cat" style="color:${CAT_COLOR[p.cat]}">${p.cat}</span></td>
+    <td class="td-r tnum">${BRL(p.preco)}</td><td class="td-r tnum">${p.estoque}</td>
+    <td class="td-r" style="color:var(--accent);font-weight:700">${Math.round((p.comissao||CAT_COM[p.cat])*100)}%</td>
+    <td>${p.ctrl?'<span class="ctrlb">SIM</span>':'<span style="color:var(--muted)">não</span>'}</td>
+    <td><button class="toggle ${p.parc?'on':'off'}" onclick="toggle('${enc(p.sku)}')"><span class="d"></span>${p.parc?'Ativo':'Fora'}</button></td>
+    <td class="row-act"><button class="ib" onclick="abrir('${enc(p.sku)}')">Editar</button> <button class="ib" onclick="remover('${enc(p.sku)}')">✕</button></td>
+  </tr>`).join('')||`<tr><td colspan="8" style="text-align:center;padding:34px;color:var(--muted)">Nenhum produto. Clique em "Novo produto" ou importe um CSV.</td></tr>`;
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const enc=s=>encodeURIComponent(s).replace(/'/g,'%27');
+
+function comHint(){document.getElementById('f-com').value=Math.round(CAT_COM[document.getElementById('f-cat').value]*100)+'%';}
+function abrir(sku){
+  const p=sku?items.find(x=>x.sku===decodeURIComponent(sku)):null;
+  document.getElementById('mTitle').textContent=p?'Editar produto':'Novo produto';
+  document.getElementById('f-orig').value=p?p.sku:'';
+  document.getElementById('f-nome').value=p?p.nome:'';
+  document.getElementById('f-sku').value=p?p.sku:'';
+  document.getElementById('f-cat').value=p?p.cat:'Óptica';
+  document.getElementById('f-preco').value=p?p.preco:'';
+  document.getElementById('f-estoque').value=p?p.estoque:0;
+  document.getElementById('f-ic').value=p?(p.ic||'📦'):'📦';
+  document.getElementById('f-desc').value=p?(p.desc||''):'';
+  document.getElementById('f-ctrl').value=(p&&p.ctrl)?'sim':'nao';
+  document.getElementById('f-parc').value=p?(p.parc?'sim':'nao'):'sim';
+  comHint();document.getElementById('mProd').classList.add('open');
+}
+function fechar(){document.getElementById('mProd').classList.remove('open');}
+document.getElementById('mProd').addEventListener('click',e=>{if(e.target.id==='mProd')fechar();});
+
+async function salvar(){
+  const orig=document.getElementById('f-orig').value;
+  const obj={sku:document.getElementById('f-sku').value.trim(),nome:document.getElementById('f-nome').value.trim(),
+    cat:document.getElementById('f-cat').value,preco:parseFloat(document.getElementById('f-preco').value)||0,
+    estoque:parseInt(document.getElementById('f-estoque').value)||0,ic:document.getElementById('f-ic').value||'📦',
+    desc:document.getElementById('f-desc').value.trim(),ctrl:document.getElementById('f-ctrl').value==='sim',
+    parc:document.getElementById('f-parc').value==='sim'};
+  if(!obj.nome||!obj.sku){toast('Preencha nome e SKU','amber');return;}
+  let r;
+  if(orig) r=await api('/api/products/'+enc(orig),{method:'PUT',body:JSON.stringify(obj)});
+  else r=await api('/api/products',{method:'POST',body:JSON.stringify(obj)});
+  const d=await r.json();
+  if(!r.ok){toast(d.erro||'Erro ao salvar','amber');return;}
+  fechar();await carregar();toast('✓ Produto salvo','green');
+}
+async function remover(sku){
+  if(!confirm('Remover este produto?'))return;
+  const r=await api('/api/products/'+sku,{method:'DELETE'});
+  if(r.ok){await carregar();toast('Produto removido','amber');}
+}
+async function toggle(sku){
+  const p=items.find(x=>x.sku===decodeURIComponent(sku));
+  const r=await api('/api/products/'+sku,{method:'PUT',body:JSON.stringify({parc:!p.parc})});
+  if(r.ok){await carregar();toast(!p.parc?'Ativado na parceria':'Retirado da parceria',!p.parc?'green':'amber');}
+}
+async function importarCSV(input){
+  const file=input.files[0];if(!file)return;
+  const text=await file.text();
+  const r=await api('/api/import',{method:'POST',headers:{'Content-Type':'text/csv'},body:text});
+  const d=await r.json();input.value='';
+  if(r.ok){await carregar();toast(`⬇ Import: ${d.novos} novos, ${d.atualizados} atualizados`,'green');}
+  else toast(d.erro||'Falha no import','amber');
+}
+let tt;function toast(m,k){const t=document.getElementById('toast');t.textContent=m;t.className='toast show'+(k?' '+k:'');clearTimeout(tt);tt=setTimeout(()=>t.className='toast'+(k?' '+k:''),3000);}
+
+checkAuth();
+</script>
+</body>
+</html>

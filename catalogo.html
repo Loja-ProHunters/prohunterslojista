@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo · Sua Loja</title>
+<style>
+  :root{
+    --brand-name:"Sua Loja Tática";--accent:#2f7a4f;--accent-dark:#24603d;--accent-soft:#eaf4ee;
+    --bg:#f5f6f4;--surface:#fff;--surface-2:#fbfbfa;--ink:#161a16;--ink-2:#586059;--muted:#8b918a;
+    --line:#e7e9e5;--serious:#c46a2f;--serious-soft:#fbeee3;--font:system-ui,-apple-system,"Segoe UI",sans-serif;
+    --shadow:0 1px 3px rgba(20,24,20,.05),0 6px 24px rgba(20,24,20,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;line-height:1.5}
+  .tnum{font-variant-numeric:tabular-nums}
+  header.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .top-in{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:20px}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px}
+  .logo .mark{width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:19px}
+  .search{flex:1;max-width:440px}
+  .search input{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:11px 14px;font-size:14px;font-family:var(--font);color:var(--ink)}
+  .search input:focus{outline:none;border-color:var(--accent)}
+  .top-cta{margin-left:auto}
+  .wa{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font)}
+  .wa:hover{background:var(--accent-dark)}
+  .hero{background:linear-gradient(180deg,#f3faf5,#fff);border-bottom:1px solid var(--line)}
+  .hero-in{max-width:1180px;margin:0 auto;padding:44px 24px}
+  .hero h1{font-size:30px;font-weight:800;letter-spacing:-.02em;max-width:610px;line-height:1.2}
+  .hero h1 .g{color:var(--accent)}
+  .hero p{margin-top:13px;font-size:15px;color:var(--ink-2);max-width:520px}
+  .hero .badges{display:flex;gap:22px;margin-top:22px;flex-wrap:wrap}
+  .hero .bg{display:flex;gap:9px;align-items:center;font-size:13.5px;font-weight:600}
+  .hero .bg .i{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:15px}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 24px 60px}
+  .cats{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:24px}
+  .cats button{background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:9px 16px;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;font-family:var(--font);transition:.15s}
+  .cats button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:.18s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(20,24,20,.06),0 14px 40px rgba(20,24,20,.09)}
+  .ph{height:150px;background:radial-gradient(circle at 50% 35%,#fff,var(--surface-2));display:grid;place-items:center;font-size:52px;position:relative;border-bottom:1px solid var(--line)}
+  .badge{position:absolute;top:12px;font-size:11px;font-weight:700;padding:4px 9px;border-radius:99px}
+  .badge.stock{right:12px;background:var(--accent-soft);color:var(--accent-dark)}
+  .badge.low{right:12px;background:#fdeeee;color:#b23b3b}
+  .badge.ctrl{left:12px;background:var(--serious-soft);color:var(--serious)}
+  .cb{padding:15px 16px 17px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .ccat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .cn{font-size:15px;font-weight:700;line-height:1.3}
+  .cd{font-size:12.5px;color:var(--ink-2);flex:1}
+  .price{font-size:20px;font-weight:800}.price small{font-size:12px;font-weight:500;color:var(--muted);display:block}
+  .consult{font-size:14px;font-weight:700;color:var(--serious)}
+  .cta{margin-top:10px;border:0;border-radius:11px;padding:11px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:var(--font);width:100%}
+  .cta.buy{background:var(--accent);color:#fff}.cta.buy:hover{background:var(--accent-dark)}
+  .cta.ask{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}.cta.ask:hover{border-color:var(--serious);color:var(--serious)}
+  .empty{grid-column:1/-1;text-align:center;padding:50px;color:var(--muted)}
+  footer{background:var(--surface);border-top:1px solid var(--line);margin-top:20px}
+  .foot-in{max-width:1180px;margin:0 auto;padding:28px 24px;font-size:13px;color:var(--ink-2);line-height:1.6}
+  .foot-in b{color:var(--ink)}
+  .fab{position:fixed;bottom:24px;right:24px;background:#25d366;color:#fff;border:0;border-radius:99px;padding:14px 20px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(37,211,102,.4);font-family:var(--font);z-index:40}
+  .mbg{position:fixed;inset:0;background:rgba(20,24,20,.5);backdrop-filter:blur(3px);display:none;place-items:center;z-index:60;padding:20px}
+  .mbg.open{display:grid}
+  .modal{background:var(--surface);border-radius:18px;padding:26px;width:min(430px,100%);box-shadow:var(--shadow)}
+  .modal h3{font-size:17px;margin-bottom:5px}.modal .ms{font-size:13px;color:var(--ink-2);margin-bottom:16px}
+  .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+  .fg label{font-size:12.5px;color:var(--ink-2)}
+  .fg input,.fg textarea{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:14px;font-family:var(--font)}
+  .acts{display:flex;gap:10px;margin-top:6px}
+  .bg2{background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:12px 16px;font-weight:600;cursor:pointer;font-family:var(--font)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(160%);background:var(--ink);color:#fff;padding:13px 22px;border-radius:12px;font-size:14px;font-weight:600;z-index:90;transition:.35s;max-width:90vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  @media(max-width:640px){.top-in{flex-wrap:wrap}.search{order:3;flex-basis:100%}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="logo"><span class="mark" id="mark">S</span><span id="brandName">Sua Loja Tática</span></div>
+  <div class="search"><input id="q" placeholder="Buscar produto…" oninput="render()"></div>
+  <div class="top-cta"><button class="wa" onclick="lead(null)">💬 Falar com a loja</button></div>
+</div></header>
+
+<section class="hero"><div class="hero-in">
+  <h1>Equipamentos importados e <span class="g">pronta-entrega</span>, sem esperar importação.</h1>
+  <p>Óptica, acessórios e itens táticos com envio rápido. Fale com a loja e garanta o seu.</p>
+  <div class="badges">
+    <div class="bg"><span class="i">📦</span> Pronta-entrega</div>
+    <div class="bg"><span class="i">🌎</span> Produtos importados</div>
+    <div class="bg"><span class="i">🔒</span> Compra segura</div>
+  </div>
+</div></section>
+
+<div class="wrap">
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"><div class="empty">Carregando produtos…</div></div>
+</div>
+
+<footer><div class="foot-in">
+  <b id="brandFoot">Sua Loja Tática</b><br>
+  Produtos controlados (armas e munição) são vendidos <b>mediante apresentação e regularidade da documentação exigida</b>, conforme a legislação vigente. Valores e disponibilidade sujeitos a confirmação.
+</div></footer>
+
+<button class="fab" onclick="lead(null)">💬 WhatsApp</button>
+
+<div class="mbg" id="modal"><div class="modal">
+  <h3 id="mT">Falar com a loja</h3><p class="ms" id="mS">Deixe seu contato que a gente te chama no WhatsApp.</p>
+  <div class="fg"><label>Seu nome</label><input id="l-nome" placeholder="Nome"></div>
+  <div class="fg"><label>WhatsApp</label><input id="l-fone" placeholder="(00) 00000-0000"></div>
+  <div class="fg"><label>Mensagem</label><textarea id="l-msg" rows="2"></textarea></div>
+  <div class="acts"><button class="bg2" onclick="fechar()">Cancelar</button><button class="cta buy" style="margin:0" onclick="enviar()">Enviar para a loja</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const BRL=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:2});
+let produtos=[],cats=['Todos'],cat='Todos';
+const brand=getComputedStyle(document.documentElement).getPropertyValue('--brand-name').replace(/["']/g,'').trim()||'Sua Loja Tática';
+document.getElementById('brandName').textContent=brand;document.getElementById('brandFoot').textContent=brand;
+document.getElementById('mark').textContent=brand[0]||'S';document.title='Catálogo · '+brand;
+
+async function carregar(){
+  try{
+    const r=await fetch('/api/products?public=1');produtos=await r.json();
+  }catch(e){produtos=[];}
+  cats=['Todos',...Array.from(new Set(produtos.map(p=>p.cat)))];
+  document.getElementById('cats').innerHTML=cats.map(c=>`<button class="${c===cat?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+  render();
+}
+function setCat(c){cat=c;document.querySelectorAll('#cats button').forEach(b=>b.classList.toggle('on',b.textContent===c));render();}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const list=produtos.filter(p=>(cat==='Todos'||p.cat===cat)&&(p.nome+(p.desc||'')).toLowerCase().includes(q));
+  document.getElementById('grid').innerHTML=list.map((p,i)=>{
+    const low=p.estoque<=5;
+    const price=p.ctrl?`<span class="consult">Sob consulta</span>`:`<div class="price"><small>à vista</small>${BRL(p.preco)}</div>`;
+    const cta=p.ctrl?`<button class="cta ask" onclick="lead(${i})">🔒 Consultar disponibilidade</button>`:`<button class="cta buy" onclick="lead(${i})">💬 Tenho interesse</button>`;
+    return `<div class="card"><div class="ph">${p.ic||'📦'}
+      ${p.ctrl?'<span class="badge ctrl">Controlado</span>':''}
+      <span class="badge ${low?'low':'stock'}">${low?'Últimas unidades':p.estoque+' em estoque'}</span></div>
+      <div class="cb"><span class="ccat">${p.cat}</span><div class="cn">${esc(p.nome)}</div><div class="cd">${esc(p.desc||'')}</div>
+      ${price}${cta}</div></div>`;
+  }).join('')||`<div class="empty">Nenhum produto encontrado.</div>`;
+  window._list=list;
+}
+function lead(i){
+  const p=(i!=null)?window._list[i]:null;
+  document.getElementById('mT').textContent=p?(p.ctrl?'Consultar disponibilidade':'Tenho interesse'):'Falar com a loja';
+  document.getElementById('mS').textContent=p&&p.ctrl?'Produto controlado — a loja te explica a documentação necessária.':'Deixe seu contato que a loja te chama no WhatsApp.';
+  document.getElementById('l-msg').value=p?('Tenho interesse em: '+p.nome):'';
+  document.getElementById('modal').classList.add('open');
+}
+function fechar(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')fechar();});
+function enviar(){fechar();document.getElementById('l-nome').value='';document.getElementById('l-fone').value='';toast('✓ Recebemos seu contato! A loja vai te chamar em breve.');}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),3400);}
+carregar();
+</script>
+</body>
+</html>
