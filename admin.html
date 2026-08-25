@@ -124,6 +124,7 @@
     <div class="fg"><label>Ícone / emoji</label><input id="f-ic" maxlength="2" value="📦"></div>
     <div class="fg"><label>Comissão (categoria)</label><input id="f-com" readonly style="opacity:.7"></div>
     <div class="fg full"><label>Descrição (catálogo)</label><textarea id="f-desc" rows="2"></textarea></div>
+    <div class="fg full"><label>URL da foto</label><input id="f-img" placeholder="https://… (link da imagem do produto)"></div>
     <div class="fg"><label>Controlado?</label><select id="f-ctrl"><option value="nao">Não</option><option value="sim">Sim (arma/munição)</option></select></div>
     <div class="fg"><label>Na parceria?</label><select id="f-parc"><option value="sim">Sim — aparece pro lojista</option><option value="nao">Não</option></select></div>
   </div>
@@ -164,7 +165,7 @@ function render(){
      <div class="s"><b style="color:var(--accent)">${naParc}</b><span>na parceria</span></div>
      <div class="s"><b>${ctrl}</b><span>controlados</span></div>`;
   document.getElementById('tbody').innerHTML=list.map(p=>`<tr>
-    <td><div style="display:flex;gap:11px;align-items:center"><span style="font-size:18px">${p.ic||'📦'}</span><div><b>${esc(p.nome)}</b> <span class="pill">${esc(p.sku)}</span></div></div></td>
+    <td><div style="display:flex;gap:11px;align-items:center">${p.img?`<img src="${esc(p.img)}" style="width:30px;height:30px;object-fit:cover;border-radius:7px;border:1px solid var(--line)" onerror="this.style.display='none'">`:`<span style="font-size:18px">${p.ic||'📦'}</span>`}<div><b>${esc(p.nome)}</b> <span class="pill">${esc(p.sku)}</span></div></div></td>
     <td><span class="cat" style="color:${CAT_COLOR[p.cat]}">${p.cat}</span></td>
     <td class="td-r tnum">${BRL(p.preco)}</td><td class="td-r tnum">${p.estoque}</td>
     <td class="td-r" style="color:var(--accent);font-weight:700">${Math.round((p.comissao||CAT_COM[p.cat])*100)}%</td>
@@ -188,6 +189,7 @@ function abrir(sku){
   document.getElementById('f-estoque').value=p?p.estoque:0;
   document.getElementById('f-ic').value=p?(p.ic||'📦'):'📦';
   document.getElementById('f-desc').value=p?(p.desc||''):'';
+  document.getElementById('f-img').value=p?(p.img||''):'';
   document.getElementById('f-ctrl').value=(p&&p.ctrl)?'sim':'nao';
   document.getElementById('f-parc').value=p?(p.parc?'sim':'nao'):'sim';
   comHint();document.getElementById('mProd').classList.add('open');
@@ -200,6 +202,7 @@ async function salvar(){
   const obj={sku:document.getElementById('f-sku').value.trim(),nome:document.getElementById('f-nome').value.trim(),
     cat:document.getElementById('f-cat').value,preco:parseFloat(document.getElementById('f-preco').value)||0,
     estoque:parseInt(document.getElementById('f-estoque').value)||0,ic:document.getElementById('f-ic').value||'📦',
+    img:document.getElementById('f-img').value.trim(),
     desc:document.getElementById('f-desc').value.trim(),ctrl:document.getElementById('f-ctrl').value==='sim',
     parc:document.getElementById('f-parc').value==='sim'};
   if(!obj.nome||!obj.sku){toast('Preencha nome e SKU','amber');return;}

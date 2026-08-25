@@ -39,7 +39,8 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:.18s}
   .card:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(20,24,20,.06),0 14px 40px rgba(20,24,20,.09)}
-  .ph{height:150px;background:radial-gradient(circle at 50% 35%,#fff,var(--surface-2));display:grid;place-items:center;font-size:52px;position:relative;border-bottom:1px solid var(--line)}
+  .ph{height:170px;background:radial-gradient(circle at 50% 35%,#fff,var(--surface-2));display:grid;place-items:center;font-size:52px;position:relative;border-bottom:1px solid var(--line);overflow:hidden}
+  .ph img{max-width:88%;max-height:88%;object-fit:contain}
   .badge{position:absolute;top:12px;font-size:11px;font-weight:700;padding:4px 9px;border-radius:99px}
   .badge.stock{right:12px;background:var(--accent-soft);color:var(--accent-dark)}
   .badge.low{right:12px;background:#fdeeee;color:#b23b3b}
@@ -134,7 +135,8 @@ function render(){
     const low=p.estoque<=5;
     const price=p.ctrl?`<span class="consult">Sob consulta</span>`:`<div class="price"><small>à vista</small>${BRL(p.preco)}</div>`;
     const cta=p.ctrl?`<button class="cta ask" onclick="lead(${i})">🔒 Consultar disponibilidade</button>`:`<button class="cta buy" onclick="lead(${i})">💬 Tenho interesse</button>`;
-    return `<div class="card"><div class="ph">${p.ic||'📦'}
+    const media=p.img?`<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.outerHTML='📦'">`:(p.ic||'📦');
+    return `<div class="card"><div class="ph">${media}
       ${p.ctrl?'<span class="badge ctrl">Controlado</span>':''}
       <span class="badge ${low?'low':'stock'}">${low?'Últimas unidades':p.estoque+' em estoque'}</span></div>
       <div class="cb"><span class="ccat">${p.cat}</span><div class="cn">${esc(p.nome)}</div><div class="cd">${esc(p.desc||'')}</div>
